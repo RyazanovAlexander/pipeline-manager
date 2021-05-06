@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Worker.PipelineAgent": {
+      "commandName": "Project"
+    }
+  }
+}
