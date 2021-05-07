@@ -18,9 +18,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: pipeline_agent
+          image: {{ .Values.pipeline_agent.image.name }}
+          imagePullPolicy: {{ .Values.pipeline_agent.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 80
@@ -38,7 +38,12 @@ spec:
             failureThreshold: 6
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.pipeline_agent.resources | nindent 12 }}
+        - name: executor-echo
+          image: {{ .Values.executor_echo.image.name }}
+          imagePullPolicy: {{ .Values.executor_echo.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.executor_echo.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

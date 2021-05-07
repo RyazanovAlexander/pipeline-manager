@@ -1,13 +1,21 @@
 apiVersion: skaffold/v2beta10
 kind: Config
+build:
+  artifacts:
+  - image: docker.io/aryazanov/example-echo
 deploy:
   helm:
     releases:
-    - name: frontend
-      namespace: example
+    - name: echo
+      namespace: example-echo
       createNamespace: true
-      chartPath: tmp/rendered/frontend
-    - name: backend
-      namespace: example
-      createNamespace: true
-      chartPath: tmp/rendered/backend
+      chartPath: chart
+      artifactOverrides:
+        executor_echo:
+          image: docker.io/aryazanov/example-echo
+portForward:
+- resourceType: deployment
+  resourceName: echo
+  namespace: example-echo
+  port: 80
+  localPort: 1001

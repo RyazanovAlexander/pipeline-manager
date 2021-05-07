@@ -24,7 +24,7 @@ proto:
 
 .PHONY: container
 container:
-	@docker build -t $(DRNAME):$(DTAG) -f ./$(BUILDDIR)/$(DFNAME) .
+	@docker build -t $(DRNAME):$(DTAG) -f ./Dockerfile ../../.
 	@docker push $(DRNAME):$(DTAG)
 
 # ------------------------------------------------------------------------------
@@ -32,4 +32,9 @@ container:
 
 .PHONY: example-echo
 example-echo:
+	@docker build -t aryazanov/example-echo:0.0.1 -f ./Example/echo/Dockerfile ./Example/echo/
 	@skaffold dev -f ./Example/echo/skaffold.yaml
+
+.PHONY: example-echo-delete
+example-echo-delete:
+	@skaffold delete -f ./Example/echo/skaffold.yaml

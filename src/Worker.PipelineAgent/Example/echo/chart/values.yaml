@@ -1,9 +1,28 @@
 replicaCount: 1
 
-image:
-  repository: nginx
-  pullPolicy: Always
-  tag: ""
+pipeline_agent:
+  image:
+    name: docker.io/aryazanov/pipeline-agent:0.0.1
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+executor_echo:
+  image:
+    name: docker.io/aryazanov/example-echo:0.0.1
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 50m
+      memory: 64Mi
+    requests:
+      cpu: 25m
+      memory: 32Mi
 
 imagePullSecrets: []
 
@@ -11,12 +30,5 @@ service:
   type: ClusterIP
   port: 80
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
-
-nodeSelector: {}
+nodeSelector:
+  kubernetes.io/os: linux
