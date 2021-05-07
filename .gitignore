@@ -19,3 +19,5 @@
 /src/Web.ApiGateway/bin
 /src/Common.Models/obj
 /src/Common.Models/bin
+/.vs/pipeline-manager/DesignTimeBuild
+/.vs/pipeline-manager/v16
