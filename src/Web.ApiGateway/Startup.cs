@@ -123,14 +123,5 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             return services;
         }
-
-        public static IServiceCollection AddGrpcServices(this IServiceCollection services)
-        {
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddScoped<ICatalogService, CatalogService>();
-            services.AddScoped<IOrderingService, OrderingService>();
-
-            return services;
-        }
     }
 }

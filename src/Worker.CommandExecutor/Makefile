@@ -11,7 +11,7 @@ GITSHORTSHA := $(shell git rev-parse --short HEAD)
 # docker option
 DTAG   ?= $(LASTTAG)
 DFNAME ?= Dockerfile
-DRNAME ?= docker.io/aryazanov/pipeline-manager/command-executor
+DRNAME ?= docker.io/aryazanov/command-executor
 
 # go option
 PKG        := ./...

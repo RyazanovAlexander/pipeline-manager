@@ -6,7 +6,7 @@ LASTTAG := $(shell git tag --sort=committerdate | tail -1)
 # docker option
 DTAG   ?= $(LASTTAG)
 DFNAME ?= Dockerfile
-DRNAME ?= docker.io/aryazanov/pipeline-manager/worker/pipeline-agent
+DRNAME ?= docker.io/aryazanov/pipeline-agent
 
 # ------------------------------------------------------------------------------
 #  proto
@@ -14,10 +14,10 @@ DRNAME ?= docker.io/aryazanov/pipeline-manager/worker/pipeline-agent
 .PHONY: proto
 proto:
 	@protoc -I ../Worker.Proto \
-            --csharp_out=. \
-            --grpc_out=. \
-           ../Worker.Proto/exec.proto \
-           --plugin=protoc-gen-grpc=../../Tools/grpc_csharp_plugin.exe
+            --csharp_out=./Proto \
+            --grpc_out=./Proto \
+            ../Worker.Proto/exec.proto \
+            --plugin=protoc-gen-grpc=../../Tools/grpc_csharp_plugin.exe
 
 # ------------------------------------------------------------------------------
 #  container
@@ -26,3 +26,10 @@ proto:
 container:
 	@docker build -t $(DRNAME):$(DTAG) -f ./$(BUILDDIR)/$(DFNAME) .
 	@docker push $(DRNAME):$(DTAG)
+
+# ------------------------------------------------------------------------------
+#  example-echo
+
+.PHONY: example-echo
+example-echo:
+	@skaffold dev -f ./Example/echo/skaffold.yaml

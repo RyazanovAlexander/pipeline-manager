@@ -17,3 +17,5 @@
 /src/Worker.PipelineAgent/bin
 /src/Web.ApiGateway/obj
 /src/Web.ApiGateway/bin
+/src/Common.Models/obj
+/src/Common.Models/bin

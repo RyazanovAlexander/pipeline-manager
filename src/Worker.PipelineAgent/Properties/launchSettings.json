@@ -1,7 +1,18 @@
 {
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Worker.PipelineAgent": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "PIPELINE_AGENT__EXECUTORS__0__NAME": "TestExecutor",
+        "PIPELINE_AGENT__NAME": "TestAgent",
+        "PIPELINE_AGENT__EXECUTORS__0__TARGET": "127.0.0.1:50051",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }
