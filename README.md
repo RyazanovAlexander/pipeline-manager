@@ -1,6 +1,9 @@
 # Pipeline manager
 Cloud-native pipeline orchestration platform.
 
+## Motivation
+
+
 ## Project structure
 The project consists of several repositories:
 1) pipeline-manager - contains documentation, CI/CD and links to other repositories.
@@ -10,7 +13,7 @@ The project consists of several repositories:
 5) [pipeline-manager.worker.command-executor](https://github.com/RyazanovAlexander/pipeline-manager.worker.command-executor) - utility used by Pipeline workers to execute processes in pod containers.
 6) [pipeline-manager.applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) - directory with applications installed using [AppDeployer](https://github.com/RyazanovAlexander/pipeline-manager.platform.app-deployer).
 
-## Local development dependencies
+## Local development requirements
 Tools:
 1) [Helm](https://helm.sh) v3.5.3+
 2) [Skaffold](https://skaffold.dev) v1.21.0+
@@ -27,7 +30,7 @@ IDE:
 1) [Visual Studio Code](https://code.visualstudio.com)
 2) [Visual Studio Community 2019](https://visualstudio.microsoft.com/ru/vs/community/)
 
-## Install
+## Installation
 
 
 ## Uninstall
