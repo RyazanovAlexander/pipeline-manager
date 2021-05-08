@@ -4,6 +4,9 @@ Cloud-native pipeline orchestration platform.
 ## Motivation
 
 
+## Usage scenarios
+
+
 ## Project structure
 The project consists of several repositories:
 1) pipeline-manager - contains documentation, CI/CD and links to other repositories.
