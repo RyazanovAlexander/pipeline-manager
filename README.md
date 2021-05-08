@@ -10,6 +10,8 @@ The project consists of several repositories:
 5) [pipeline-manager.worker.command-executor](https://github.com/RyazanovAlexander/pipeline-manager.worker.command-executor) - utility used by Pipeline workers to execute processes in pod containers.
 6) [pipeline-manager.applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) - directory with applications installed using [AppDeployer](https://github.com/RyazanovAlexander/pipeline-manager.platform.app-deployer).
 
+![project-dependency-tree](project-dependency-tree.png)
+
 ## Local development dependencies
 Tools:
 1) [Helm](https://helm.sh) v3.5.3+
