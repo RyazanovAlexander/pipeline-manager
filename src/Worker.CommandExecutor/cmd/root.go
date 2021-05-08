@@ -52,7 +52,6 @@ func NewRootCmd(out io.Writer, args []string) *cobra.Command {
 	flags := cmd.PersistentFlags()
 	flags.Parse(args)
 
-	// Add subcommands
 	cmd.AddCommand(
 		newVersionCmd(out),
 	)

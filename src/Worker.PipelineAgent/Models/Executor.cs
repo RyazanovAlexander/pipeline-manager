@@ -27,7 +27,10 @@ namespace Worker.PipelineAgent.Models
 
         public void Dispose()
         {
-            _channel.ShutdownAsync().Wait();
+            if (_channel.State != ChannelState.Shutdown)
+            {
+                _channel.ShutdownAsync().Wait();
+            }
         }
     }
 }

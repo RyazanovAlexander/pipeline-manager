@@ -11,18 +11,13 @@ deploy:
       namespace: example-echo
       createNamespace: true
       chartPath: ./Example/echo/chart
-      setValueTemplates:
-        executor_echo_1:
-          imageConfig:
-            pullPolicy: IfNotPresent
-        executor_echo_2:
-          imageConfig:
-            pullPolicy: IfNotPresent
       artifactOverrides:
         executor_echo_1:
-          image: example-echo
+          image:
+            name: example-echo
         executor_echo_2:
-          image: example-echo
+          image:
+            name: example-echo
 portForward:
 - resourceType: deployment
   resourceName: echo

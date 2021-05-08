@@ -35,12 +35,9 @@ namespace Worker.PipelineAgent
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Worker.PipelineAgent v1"));
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Worker.PipelineAgent v1"));
 
             app.UseRouting();
             app.UseAuthorization();
@@ -58,8 +55,10 @@ namespace Worker.PipelineAgent
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddSingleton<IHealthCheckService, ExecutorHubService>();
-            services.AddSingleton<IExecutorHubService, ExecutorHubService>();
+            services.AddSingleton<ExecutorHubService>();
+            services.AddSingleton<IHealthCheckService>(x => x.GetRequiredService<ExecutorHubService>());
+            services.AddSingleton<IExecutorHubService>(x => x.GetRequiredService<ExecutorHubService>());
+
             services.AddSingleton<IPipelineExecutor, PipelineExecutor>();
 
             return services;

@@ -1,54 +1,6 @@
 kubectl create ns app
 
 https://docs.pingcap.com/tidb-in-kubernetes/dev/get-started
-https://github.com/minio/operator/blob/master/README.md
-https://docs.min.io/minio/k8s/tutorials/deploy-minio-tenant.html
-
-you can go to Hyper-V manager & connect to the newly created VM called 'minikube', the username is 'docker' and password is 'tcuser'
-sudo mkdir /mnt/disks/ssd1
-sudo mkdir /mnt/disks/ssd2
-sudo mkdir /mnt/disks/ssd3
-sudo mkdir /mnt/disks/ssd4
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-   name: minio-1-pv-1
-spec:
-   capacity:
-      storage: 256Mi
-   volumeMode: Filesystem
-   accessModes:
-   - ReadWriteOnce
-   persistentVolumeReclaimPolicy: Retain
-   storageClassName: local-storage
-   local:
-      path: /mnt/disks/ssd1
-   nodeAffinity:
-      required:
-         nodeSelectorTerms:
-         - matchExpressions:
-           - key: kubernetes.io/hostname
-             operator: In
-             values:
-             - minikube
-
-
-kubectl minio tenant create minio-tenant-1 --servers 1 --volumes 4 --capacity 1Gi --namespace minio-tenant-1 --storage-class local-storage
-
-Tenant 'minio-tenant-1' created in 'minio-tenant-1' Namespace
-
-←[0m←[34m  Username: admin
-←[0m←[34m  Password: 27b8e3ac-56b0-4179-9d74-eb243d87c7b8
-←[0m←[34m  Note: Copy the credentials to a secure location. MinIO will not display these again.
-
-←[0m+-------------+------------------------+----------------+--------------+--------------+
-| APPLICATION | SERVICE NAME           | NAMESPACE      | SERVICE TYPE | SERVICE PORT |
-+-------------+------------------------+----------------+--------------+--------------+
-| MinIO       | minio                  | minio-tenant-1 | ClusterIP    | 443          |
-| Console     | minio-tenant-1-console | minio-tenant-1 | ClusterIP    | 9443         |
-+-------------+------------------------+----------------+--------------+--------------+
-
 https://github.com/minio/charts 
 
 NAMESPACE: minio
@@ -70,19 +22,39 @@ You can now access Minio server on http://localhost:9000. Follow the below steps
   3. mc alias set minio-1620205655-local http://localhost:9000 "$ACCESS_KEY" "$SECRET_KEY" --api s3v4
   4. mc ls minio-1620205655-local
 
-4Z3g9MxVyyb1CLz9967x
-EAg45XYgc3c08ua1gXCZ07mrVlraXnVEWkJt4P8a
+minikube creds: docker:tcuser
 
-protoc --go_out=. --go_opt=paths=source_relative \
-    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    proto/reverse.proto
-	
-protoc -Iproto proto/reverse.proto --go_opt=paths=source_relative --go_out=./proto --go-grpc_out=./proto --go-grpc_opt=paths=source_relative
-protoc -Iproto ../Worker.Proto/reverse.proto --go_opt=paths=source_relative --go_out=./internal/proto/ --go-grpc_out=./internal/proto/ --go-grpc_opt=paths=source_relative
-protoc -I ../Worker.Proto/ ../Worker.Proto/reverse.proto --go_opt=paths=source_relative --go_out=./internal/proto/ --go-grpc_out=./internal/proto/ --go-grpc_opt=paths=source_relative
+https://minikube.sigs.k8s.io/docs/handbook/pushing/#4-pushing-to-an-in-cluster-using-registry-addon
+minikube addons enable registry
+minikube addons enable metrics-server
 
-protoc -I ../Worker.Proto/ ../Worker.Proto/reverse.proto --go_opt=paths=source_relative --go_out=./internal/server/ --go-grpc_out=./internal/server/ --go-grpc_opt=paths=source_relative
-protoc -I ../Worker.Proto/ ../Worker.Proto/reverse.proto --go_out=plugins=grpc:./internal/server
+# Set docker env
+eval $(minikube docker-env)             # unix shells
+minikube docker-env | Invoke-Expression # PowerShell
 
-protoc.exe -I ../Worker.Proto --csharp_out . --grpc_out . ../Worker.Proto/reverse.proto --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe
-protoc.exe -I ../Worker.Proto --csharp_out=. --grpc_out=. ../Worker.Proto/reverse.proto --plugin=protoc-gen-grpc=C:\Users\Alexander\.nuget\packages\grpc.tools\2.37.1\tools\windows_x64\grpc_csharp_plugin.exe
+https://hub.docker.com/r/mikenye/youtube-dl
+https://github.com/ytdl-org/youtube-dl
+youtube-dl -f best -o "./video/%(title)s.%(ext)s" 'http://www.youtube.com/watch?v=P9pzm5b6FFY'
+
+https://hub.docker.com/r/minio/mc/
+https://github.com/rclone/rclone
+
+https://drive.google.com/drive/folders/1IW986tN2-dwUJUFnpn_t7XXQu0FrEYTG?usp=sharing
+
+Orleans metrcist
+https://github.com/zh6335901/Orleans.TelemetryConsumers.Prometheus
+
+Helm repo
+https://medium.com/@mattiaperi/create-a-public-helm-chart-repository-with-github-pages-49b180dbb417
+
+Minio client
+https://github.com/minio/mc
+
+Google drive
+https://github.com/prasmussen/gdrive
+
+RClone
+https://github.com/rclone/rclone
+
+Tesseract
+https://github.com/tesseract-ocr/tesseract

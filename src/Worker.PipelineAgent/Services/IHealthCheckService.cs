@@ -3,7 +3,5 @@
     public interface IHealthCheckService
     {
         bool IsReady();
-
-        bool IsHealthy();
     }
 }

@@ -18,9 +18,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: pipeline_agent
-          image: {{ .Values.pipeline_agent.image.name }}
-          imagePullPolicy: {{ .Values.pipeline_agent.image.pullPolicy }}
+        - name: executor-echo-1
+          image: {{ if eq "string" (printf "%T" .Values.executor_echo_1.image) }} "{{ .Values.executor_echo_1.image }}" {{ else }} "{{ .Values.executor_echo_1.image.containerRegister }}/{{ .Values.executor_echo_1.image.name }}:{{ .Values.executor_echo_1.image.tag }}" {{ end }}
+          imagePullPolicy: {{ .Values.executor_echo_1.imageConfig.pullPolicy }}
+          resources:
+            {{- toYaml .Values.executor_echo_1.resources | nindent 12 }}
+          env:
+            {{- toYaml .Values.executor_echo_1.env | nindent 12 }}
+        - name: executor-echo-2
+          image: {{ if eq "string" (printf "%T" .Values.executor_echo_2.image) }} "{{ .Values.executor_echo_2.image }}" {{ else }} "{{ .Values.executor_echo_2.image.containerRegister }}/{{ .Values.executor_echo_2.image.name }}:{{ .Values.executor_echo_2.image.tag }}" {{ end }}
+          imagePullPolicy: {{ .Values.executor_echo_2.imageConfig.pullPolicy }}
+          resources:
+            {{- toYaml .Values.executor_echo_2.resources | nindent 12 }}
+          env:
+            {{- toYaml .Values.executor_echo_2.env | nindent 12 }}
+        - name: pipeline-agent
+          image: {{ if eq "string" (printf "%T" .Values.pipeline_agent.image) }} "{{ .Values.pipeline_agent.image }}" {{ else }} "{{ .Values.pipeline_agent.image.containerRegister }}/{{ .Values.pipeline_agent.image.name }}:{{ .Values.pipeline_agent.image.tag }}" {{ end }}
+          imagePullPolicy: {{ .Values.pipeline_agent.imageConfig.pullPolicy }}
           ports:
             - name: http
               containerPort: 80
@@ -30,20 +44,17 @@ spec:
               path: /healthz
               port: http
             failureThreshold: 1
-            periodSeconds: 10
+            periodSeconds: 1
           startupProbe:
             httpGet:
               path: /ready
               port: http
-            failureThreshold: 6
-            periodSeconds: 10
+            failureThreshold: 20
+            periodSeconds: 1
           resources:
             {{- toYaml .Values.pipeline_agent.resources | nindent 12 }}
-        - name: executor-echo
-          image: {{ .Values.executor_echo.image.name }}
-          imagePullPolicy: {{ .Values.executor_echo.image.pullPolicy }}
-          resources:
-            {{- toYaml .Values.executor_echo.resources | nindent 12 }}
+          env:
+            {{- toYaml .Values.pipeline_agent.env | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

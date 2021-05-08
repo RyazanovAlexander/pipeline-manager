@@ -25,6 +25,7 @@ SOFTWARE.
 package server
 
 import (
+	"fmt"
 	"io"
 	"net"
 
@@ -56,6 +57,8 @@ func (s *server) ExecuteCommand(ctx context.Context, in *ExecCommand) (*ExecResu
 }
 
 func Run(out io.Writer) error {
+	fmt.Sprintln(out, "Launching the gRPC server on the port %s", config.Config.ServerGrpcPort)
+
 	listner, err := net.Listen("tcp", config.Config.ServerGrpcPort)
 	if err != nil {
 		return err
@@ -68,6 +71,8 @@ func Run(out io.Writer) error {
 
 	RegisterExecServiceServer(grpcServer, &executorServer)
 	reflection.Register(grpcServer)
+
+	fmt.Fprintln(out, "Server started sucessfully")
 
 	if err := grpcServer.Serve(listner); err != nil {
 		return err

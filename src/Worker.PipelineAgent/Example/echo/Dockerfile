@@ -1,4 +1,4 @@
-FROM aryazanov/command-executor:0.0.1 AS command-executor
+FROM docker.io/aryazanov/command-executor:0.0.1 AS command-executor
 
 FROM alpine:3.13.5
 WORKDIR /

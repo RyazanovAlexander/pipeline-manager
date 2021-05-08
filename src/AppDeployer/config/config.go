@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright The pipeline-manager Authors.
+Copyright The deployer Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package executor
+package config
 
 import (
-	"fmt"
-	"io"
-	"os/exec"
-
-	"github.com/RyazanovAlexander/pipeline-manager/command-executor/v1/config"
+	"github.com/spf13/viper"
 )
 
-func ExecCommand(cmd string, out io.Writer) error {
-	shell := "sh"
-	if config.Config.Debug {
-		shell = "bash"
-	}
+// Config is global object that holds all application level variables.
+var Config appConfig
 
-	result, err := exec.Command(shell, "-c", cmd).Output()
-	if err != nil {
+type appConfig struct {
+	Debug bool `mapstructure:"DEBUG"`
+}
+
+// Load loads config from environment variables
+func Load() error {
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix("DEPLOYER")
+
+	viper.BindEnv("DEBUG")
+
+	if err := viper.Unmarshal(&Config); err != nil {
 		return err
 	}
-
-	fmt.Fprintln(out, string(result))
 
 	return nil
 }

@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright The pipeline-manager Authors.
+Copyright The deployer Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package executor
+package main
 
 import (
-	"fmt"
-	"io"
-	"os/exec"
-
-	"github.com/RyazanovAlexander/pipeline-manager/command-executor/v1/config"
+	"os"
+	"testing"
 )
 
-func ExecCommand(cmd string, out io.Writer) error {
-	shell := "sh"
-	if config.Config.Debug {
-		shell = "bash"
-	}
-
-	result, err := exec.Command(shell, "-c", cmd).Output()
-	if err != nil {
-		return err
-	}
-
-	fmt.Fprintln(out, string(result))
-
-	return nil
+func TestMainProgram(t *testing.T) {
+	os.Args = []string{"deployer", "help"}
+	main()
 }

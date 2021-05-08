@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright The pipeline-manager Authors.
+Copyright The deployer Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package executor
+package cmd
 
 import (
 	"fmt"
 	"io"
-	"os/exec"
 
-	"github.com/RyazanovAlexander/pipeline-manager/command-executor/v1/config"
+	"github.com/spf13/cobra"
+
+	"github.com/RyazanovAlexander/pipeline-manager/deployer/v1/internal/server"
 )
 
-func ExecCommand(cmd string, out io.Writer) error {
-	shell := "sh"
-	if config.Config.Debug {
-		shell = "bash"
+var globalUsage = `Http server for deploy pipeline workers.
+
+Common actions for deployer:
+
+- deployer: starts http server and waits for deploy request
+`
+
+// NewRootCmd creates new root cmd.
+func NewRootCmd(out io.Writer, args []string) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "deployer",
+		Short: "Starts deployer server",
+		Long:  globalUsage,
+		Run:   func(cmd *cobra.Command, args []string) { runRootCmd(out, args) },
 	}
 
-	result, err := exec.Command(shell, "-c", cmd).Output()
+	flags := cmd.PersistentFlags()
+	flags.Parse(args)
+
+	cmd.AddCommand(
+		newVersionCmd(out),
+	)
+
+	return cmd
+}
+
+func runRootCmd(out io.Writer, args []string) {
+	err := server.Run(out)
 	if err != nil {
-		return err
+		fmt.Fprintln(out, err)
 	}
-
-	fmt.Fprintln(out, string(result))
-
-	return nil
 }

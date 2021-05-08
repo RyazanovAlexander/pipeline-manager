@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright The pipeline-manager Authors.
+Copyright The deployer Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package executor
+package server
 
 import (
-	"fmt"
 	"io"
-	"os/exec"
+	"net/http"
 
-	"github.com/RyazanovAlexander/pipeline-manager/command-executor/v1/config"
+	"github.com/gin-gonic/gin"
+
+	"github.com/RyazanovAlexander/pipeline-manager/deployer/v1/internal/deployer"
 )
 
-func ExecCommand(cmd string, out io.Writer) error {
-	shell := "sh"
-	if config.Config.Debug {
-		shell = "bash"
-	}
+type Manifest struct {
+	RepoName  string `json:"repoName" binding:"required"`
+	RepoUrl   string `json:"repoUrl" binding:"required"`
+	ChartName string `json:"chartName" binding:"required"`
+}
 
-	result, err := exec.Command(shell, "-c", cmd).Output()
-	if err != nil {
-		return err
-	}
+func Run(out io.Writer) error {
+	router := gin.Default()
 
-	fmt.Fprintln(out, string(result))
+	router.POST("/deploy/manifest", func(c *gin.Context) {
+		var manifest Manifest
+		if err := c.ShouldBindJSON(&manifest); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 
+		if manifest.RepoName == "" || manifest.RepoUrl == "" || manifest.ChartName == "" {
+			c.JSON(http.StatusBadRequest, "Incorrect parameters passed")
+			return
+		}
+
+		if err := deployer.Deploy(manifest.RepoName, manifest.RepoUrl, manifest.ChartName, out); err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error)
+			return
+		}
+
+		c.JSON(http.StatusOK, "Resource deployed successfully")
+	})
+
+	router.Run(":80")
 	return nil
 }

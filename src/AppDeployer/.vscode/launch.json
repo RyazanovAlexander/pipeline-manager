@@ -12,9 +12,7 @@
             "program": "${workspaceFolder}/main.go",
             "showLog": true,
             "env": {
-                "COMMAND_EXECUTOR_NAME": "TestExecutor",
-                "COMMAND_EXECUTOR_SERVER_GRPC_PORT": ":50051",
-                "COMMAND_EXECUTOR_DEBUG": true
+                "DEPLOYER_DEBUG": true
             }
         },
         {
@@ -26,9 +24,7 @@
             "args": [],
             "showLog": true,
             "env": {
-                "COMMAND_EXECUTOR_NAME": "TestExecutor",
-                "COMMAND_EXECUTOR_SERVER_GRPC_PORT": ":50051",
-                "COMMAND_EXECUTOR_DEBUG": true
+                "DEPLOYER_DEBUG": true
             }
         }   
     ]

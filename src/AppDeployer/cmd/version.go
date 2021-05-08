@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright The pipeline-manager Authors.
+Copyright The deployer Authors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package executor
+package cmd
 
 import (
 	"fmt"
 	"io"
-	"os/exec"
 
-	"github.com/RyazanovAlexander/pipeline-manager/command-executor/v1/config"
+	"github.com/spf13/cobra"
+
+	"github.com/RyazanovAlexander/pipeline-manager/deployer/v1/internal/version"
 )
 
-func ExecCommand(cmd string, out io.Writer) error {
-	shell := "sh"
-	if config.Config.Debug {
-		shell = "bash"
+func newVersionCmd(out io.Writer) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "version",
+		Short: "Show the version for deployer.",
+		Long:  `Show the version for deployer.`,
+		Run:   func(cmd *cobra.Command, args []string) { runVersionCmd(out, args) },
 	}
 
-	result, err := exec.Command(shell, "-c", cmd).Output()
-	if err != nil {
-		return err
-	}
+	return cmd
+}
 
-	fmt.Fprintln(out, string(result))
-
-	return nil
+func runVersionCmd(out io.Writer, args []string) {
+	fmt.Fprintln(out, fmt.Sprintf("%#v", version.GetBuildInfo()))
 }

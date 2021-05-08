@@ -42,8 +42,6 @@ namespace Worker.PipelineAgent.Services
 
         public bool IsReady() => initialized;
 
-        public bool IsHealthy() => initialized;
-
         public (bool result, string message) ExecuteCommand(string executorName, string command)
         {
             if (!_executorRegistry.TryGetValue(executorName, out Executor executor))

@@ -1,6 +1,6 @@
 BINDIR       := $(CURDIR)/bin
 INSTALL_PATH ?= /usr/local/bin
-BINNAME      ?= command-executor
+BINNAME      ?= deployer
 BUILDDIR     ?= build
 BUILDTIME    := $(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
 
@@ -11,7 +11,7 @@ GITSHORTSHA := $(shell git rev-parse --short HEAD)
 # docker option
 DTAG   ?= $(LASTTAG)
 DFNAME ?= Dockerfile
-DRNAME ?= docker.io/aryazanov/command-executor
+DRNAME ?= docker.io/aryazanov/deployer
 
 # go option
 PKG        := ./...
@@ -74,18 +74,6 @@ cover:
 .PHONY: clean
 clean:
 	@rm -rf '$(BINDIR)'
-
-# ------------------------------------------------------------------------------
-#  proto
-
-.PHONY: proto
-proto:
-	@protoc -I ../Worker.Proto/ \
-            ../Worker.Proto/exec.proto \
-            --go_opt=paths=source_relative \
-            --go_out=./internal/server/ \
-            --go-grpc_out=./internal/server/ \
-            --go-grpc_opt=paths=source_relative
 
 # ------------------------------------------------------------------------------
 #  container
