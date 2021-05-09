@@ -1,7 +1,5 @@
 # Pipeline manager
-Cloud-native pipeline orchestration platform.
-
-This is a research project aimed at writing a pipeline launch platform with the following capabilities:
+This is a research project aimed at writing a Cloud-native pipeline orchestration platform with the following capabilities:
 1) the ability to run on very weak hardware such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi).
 2) modularity - in the simplest scenarios, you may choose not to deploy [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) and [Infrastructure](https://github.com/RyazanovAlexander/pipeline-manager.infrastructure) components.
 3) [at-least-once](https://medium.com/@andy.bryant/processing-guarantees-in-kafka-12dd2e30be0e#:~:text=At%20least%20once%20guarantee%20means,1.) guarantee of task processing when using the [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform).
