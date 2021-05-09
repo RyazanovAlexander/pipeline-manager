@@ -52,6 +52,15 @@ With further growth of loads, it is necessary to add new components to the syste
 
 ![program-evolution](program-evolution.png)
 
+There are a large number of frameworks and services that make it easier to solve this task. For example, [UiPath](https://www.uipath.com) and [Transloadit](https://transloadit.com) allow you to automate routine operations in just a matter of hours, such as processing video, text, etc. But when using such systems, after a while you come across either insufficient performance, or with the possibility of customizing scenarios.
+
+This project is designed to solve only one task - **the execution of the pipeline, all tasks of which must be completed in one single pod entirely**. Despite the obvious limitation, compared to workflow engines, this approach allows:
+- perfectly scale pods with pipelines.
+- dramatically reduce the load on the network due to the absence of the need to send intermediate results to the blob storage.
+- excellent customization of pipelines.
+
+In developing this solution, various principles were borrowed from [Temporal](https://temporal.io), [Apache Airflow](http://airflow.apache.org), [Orleans](https://dotnet.github.io/orleans), [Apache Spark](https://spark.apache.org/) and [Dapr](https://github.com/dapr/workflows).
+
 ## Supported scenarios
 **Running pipelines in real time on very weak hardware**
 
