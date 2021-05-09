@@ -7,6 +7,9 @@ This is a research project aimed at writing a Cloud-native pipeline orchestratio
 5) extensibility through the use of Unix/Windows utilities and the ability to deploy custom [Applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) in a cluster.
 
 ## Motivation
+It's no secret that for a large number of tasks there are already ready-made solutions in the form of a set of utilities. All you need to do is [combine these utilities into the pipeline](https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/c1089.htm).
+
+![program-evolution](program-evolution.png)
 
 ## Supported scenarios
 **Running pipelines in real time on very weak hardware**
