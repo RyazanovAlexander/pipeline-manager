@@ -1,13 +1,17 @@
 # Pipeline manager
-This is a research project aimed at writing a Cloud-native pipeline orchestration platform with the following capabilities:
+This is a research project aimed at writing a [Cloud-native](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) pipeline orchestration platform with the following capabilities:
 1) the ability to run pipelines on very weak hardware such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi).
 2) modularity - in the simplest scenarios, you may choose not to deploy [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) and [Infrastructure](https://github.com/RyazanovAlexander/pipeline-manager.infrastructure) components.
 3) [at-least-once](https://medium.com/@andy.bryant/processing-guarantees-in-kafka-12dd2e30be0e#:~:text=At%20least%20once%20guarantee%20means,1.) guarantee of task processing when using the [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform).
-4) the system must be able to handle 1,000,000 requests per second with a large number of established TCP connections and low latency (<50 ms) while consuming relatively few resources.
+4) the system in must be able to handle 1,000,000 requests per second with a large number of established TCP connections and low latency (<50 ms) while consuming relatively few resources. The condition must be met at the 99th percentile.
 5) extensibility through the use of Unix/Windows utilities and the ability to deploy custom [Applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) in a cluster.
 
 ## Motivation
 It's no secret that for a large number of tasks there are already ready-made solutions in the form of a set of utilities. All you need to do is [combine these utilities into the pipeline](https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/c1089.htm).
+
+In the simplest case, it is enough to run such a pipeline on the local computer. When the load increases, additional processes with pipelines are launched until all computer resources are exhausted.
+
+With further growth of loads, it is necessary to add new components to the system, such as a database, queues, a task scheduler and an autoscaling mechanism.
 
 ![program-evolution](program-evolution.png)
 
