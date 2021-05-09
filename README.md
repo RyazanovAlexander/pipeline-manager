@@ -84,7 +84,7 @@ ingress:
 ```
 The [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) and [Infrastructure](https://github.com/RyazanovAlexander/pipeline-manager.infrastructure) components are not installed.
 
-In this scenario, the client directly sends tasks to workers with pipelines using the http(s) or gRPC protocols. This configuration allows you to reduce latency to a minimum using the least amount of overhead for processing tasks. Disadvantages of this deployment:
+In this scenario, the client directly sends tasks to PODs with pipelines using the http(s) or gRPC protocols. This configuration allows you to reduce latency to a minimum using the least amount of overhead for processing tasks. Disadvantages of this deployment:
 - scaling of workers occurs in manual mode.
 - balancing the distribution of tasks on the client side.
 - the state of tasks is not stored anywhere or is recorded on the client side.
