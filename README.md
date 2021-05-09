@@ -7,7 +7,7 @@ This is a research project aimed at writing a [Cloud-native](https://docs.micros
 
 ![main-focus](main-focus.png)
 
-The main building block in the system is the pipeline. It is a POD with several containers. One of these containers is an agent that interacts with the task scheduler using the tcp protocol. Additionally, the agent acts as a web server, for cases when the user directly runs commands in the pipeline via gRPC or http without using the task scheduler. The rest of the containers contain the utilities involved in the task execution. The result of the work is transmitted through the shared volume.
+The main building block in the system is the pipeline. It is a [POD](https://kubernetes.io/docs/concepts/workloads/pods) with several containers. One of these containers is an agent that interacts with the task scheduler using the tcp protocol. Additionally, the agent acts as a web server, for cases when the user directly runs commands in the pipeline via gRPC or http without using the task scheduler. The rest of the containers contain the utilities involved in the task execution. The result of the work is transmitted through the shared volume.
 
 ![pipeline](pipeline.png)
 
