@@ -12,8 +12,9 @@ The platform must have the following properties:
 **Running pipelines in real time on very weak hardware**
 
 The client needs to run pipelines in a minimally resource-intensive environment, such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi). Latency is at the forefront.
+![TextProcessing](https://github.com/RyazanovAlexander/pipeline-manager.applications/blob/main/catalog/TextProcessing/diagram.png)
 
-In the [MicroK8s](https://microk8s.io/) installs the [TextRecognising](https://github.com/RyazanovAlexander/pipeline-manager.applications) application with the number of replicas N.
+In the [MicroK8s](https://microk8s.io/) installs the [TextProcessing](https://github.com/RyazanovAlexander/pipeline-manager.applications/blob/main/catalog/TextProcessing) application with the number of replicas N.
 ```yaml
 replicaCount:
   min: 10
