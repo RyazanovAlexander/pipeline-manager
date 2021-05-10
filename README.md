@@ -5,11 +5,11 @@ This is a research project aimed at writing a [Cloud-native](https://docs.micros
 - horizontal scaling each platform component to handle a large number of requests per second (target 1,000,000) with a large number of established TCP connections and low latency (<50ms) while consuming relatively few cluster resources (condition will be met at the 99th percentile).
 - extensibility through the use of Unix/Windows utilities and the ability to deploy custom [Applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) in a cluster.
 
-![main-focus](main-focus.png)
+![main-focus](diagrams/main-focus.png)
 
 The main building block in the system is the pipeline. It is a [POD](https://kubernetes.io/docs/concepts/workloads/pods) with several containers. One of these containers is an agent that interacts with the task scheduler using the tcp protocol. Additionally, the agent acts as a web server, for cases when the user directly runs commands in the pipeline via gRPC or http without using the task scheduler. The rest of the containers contain the utilities involved in the task execution. The result of the work is transmitted through the shared volume.
 
-![pipeline](pipeline.png)
+![pipeline](diagrams/pipeline.png)
 
 An example of a task sent to the pipeline:
 ```yaml
@@ -50,7 +50,7 @@ In the simplest case, it is enough to run such a pipeline on the local computer.
 
 With further growth of loads, it is necessary to add new components to the system, such as a database, queues, a task scheduler and an autoscaling mechanism.
 
-![program-evolution](program-evolution.png)
+![program-evolution](diagrams/program-evolution.png)
 
 There are a large number of frameworks and services that make it easier to solve this task. For example, [UiPath](https://www.uipath.com) and [Transloadit](https://transloadit.com) allow you to automate routine operations in just a matter of hours, such as processing video, text, etc. But when using such systems, after a while you come across either insufficient performance or with the possibility of customizing scenarios.
 
@@ -104,15 +104,9 @@ Scaling of workers with pipelines is based on metrics from Prometheus. By defaul
 *If you are mainly executing this kind of scenario, you should probably look towards [Apache Spark](https://spark.apache.org/), which supports "data locality" out of the box.*
 
 Although the system is tailored for the execution of pipelines, it is still possible to perform workflows. But the developer is responsible for storing the workflow state.
-![parallel-execution.png](parallel-execution.png)
+![parallel-execution.png](diagrams/parallel-execution.png)
 
 An example of how the scenario works: a client sends a large image for processing. The task gets into the pipeline with the workflow engine. The engine saves the task in the database and creates 3 subtasks, which it publishes through the API Gateway of the Platform. Subtasks separately fall to 3 different workers with pipelines, which begin to process the image in parallel. At the end of the work, each of the workers publishes a new task with a message about the work done. When all 3 tasks reach the worker with the workflow engine, he in turn informs the Application about the completion of the workflow.
-
-## Motivation
-
-
-## Usage scenarios
-
 
 ## Project structure
 The project consists of several repositories:
@@ -123,7 +117,7 @@ The project consists of several repositories:
 - [pipeline-manager.worker.command-executor](https://github.com/RyazanovAlexander/pipeline-manager.worker.command-executor) - the gRPC agent used by Pipeline workers to execute processes in pod containers.
 - [pipeline-manager.applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) - directory with applications installed using [AppDeployer](https://github.com/RyazanovAlexander/pipeline-manager.platform.app-deployer).
 
-![project-dependency-tree](project-dependency-tree.png)
+![project-dependency-tree](diagrams/project-dependency-tree.png)
 
 ## Local development requirements
 Tools:
