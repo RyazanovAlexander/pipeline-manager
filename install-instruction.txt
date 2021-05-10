@@ -1,0 +1,60 @@
+kubectl create ns app
+
+https://docs.pingcap.com/tidb-in-kubernetes/dev/get-started
+https://github.com/minio/charts 
+
+NAMESPACE: minio
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Minio can be accessed via port 9000 on the following DNS name from within your cluster:
+minio-1620205655.minio.svc.cluster.local
+
+To access Minio from localhost, run the below commands:
+  1. export POD_NAME=$(kubectl get pods --namespace minio -l "release=minio-1620205655" -o jsonpath="{.items[0].metadata.name}")
+  2. kubectl port-forward $POD_NAME 9000 --namespace minio
+
+You can now access Minio server on http://localhost:9000. Follow the below steps to connect to Minio server with mc client:
+  1. Download the Minio mc client - https://docs.minio.io/docs/minio-client-quickstart-guide
+  2. Get the ACCESS_KEY=$(kubectl get --namespace minio secret minio-1620205655 -o jsonpath="{.data.accesskey}" | base64 --decode)
+             SECRET_KEY=$(kubectl get --namespace minio secret minio-1620205655 -o jsonpath="{.data.secretkey}" | base64 --decode)
+  3. mc alias set minio-1620205655-local http://localhost:9000 "$ACCESS_KEY" "$SECRET_KEY" --api s3v4
+  4. mc ls minio-1620205655-local
+
+minikube creds: docker:tcuser
+
+https://minikube.sigs.k8s.io/docs/handbook/pushing/#4-pushing-to-an-in-cluster-using-registry-addon
+minikube addons enable registry
+minikube addons enable metrics-server
+
+# Set docker env
+eval $(minikube docker-env)             # unix shells
+minikube docker-env | Invoke-Expression # PowerShell
+
+https://hub.docker.com/r/mikenye/youtube-dl
+https://github.com/ytdl-org/youtube-dl
+youtube-dl -f best -o "./video/%(title)s.%(ext)s" 'http://www.youtube.com/watch?v=P9pzm5b6FFY'
+
+https://hub.docker.com/r/minio/mc/
+https://github.com/rclone/rclone
+
+https://drive.google.com/drive/folders/1IW986tN2-dwUJUFnpn_t7XXQu0FrEYTG?usp=sharing
+
+Orleans metrcist
+https://github.com/zh6335901/Orleans.TelemetryConsumers.Prometheus
+
+Helm repo
+https://medium.com/@mattiaperi/create-a-public-helm-chart-repository-with-github-pages-49b180dbb417
+
+Minio client
+https://github.com/minio/mc
+
+Google drive
+https://github.com/prasmussen/gdrive
+
+RClone
+https://github.com/rclone/rclone
+
+Tesseract
+https://github.com/tesseract-ocr/tesseract
