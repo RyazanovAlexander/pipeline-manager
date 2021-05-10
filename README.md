@@ -108,12 +108,6 @@ Although the system is tailored for the execution of pipelines, it is still poss
 
 An example of how the scenario works: a client sends a large image for processing. The task gets into the pipeline with the workflow engine. The engine saves the task in the database and creates 3 subtasks, which it publishes through the API Gateway of the Platform. Subtasks separately fall to 3 different workers with pipelines, which begin to process the image in parallel. At the end of the work, each of the workers publishes a new task with a message about the work done. When all 3 tasks reach the worker with the workflow engine, he in turn informs the Application about the completion of the workflow.
 
-## Motivation
-
-
-## Usage scenarios
-
-
 ## Project structure
 The project consists of several repositories:
 - pipeline-manager - contains documentation, CI/CD and links to other repositories.
