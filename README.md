@@ -101,7 +101,7 @@ Scaling of workers with pipelines is based on metrics from Prometheus. By defaul
 
 ### Dividing a task into subtasks with parallel execution
 
-*If you are mainly executing this kind of scenario, you should probably look towards [Apache Spark](https://spark.apache.org/), which supports "data locality" out of the box.*
+*If you are mainly executing this kind of scenario, you should probably look towards [Apache Spark](https://spark.apache.org) or [Temporal](https://temporal.io).*
 
 Although the system is tailored for the execution of pipelines, it is still possible to perform workflows. But the developer is responsible for storing the workflow state.
 ![parallel-execution.png](diagrams/parallel-execution.png)
