@@ -1,6 +1,0 @@
-apiVersion: v2
-name: echo
-description: Example of a pipeline worker with multiple containers
-type: application
-version: 1.0.0
-appVersion: "1.0.0"
