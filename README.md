@@ -1,5 +1,6 @@
 # Pipeline manager
-This is a research project aimed at writing a [Cloud-native](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) pipeline orchestration platform with the following capabilities:
+This is a research project aimed at writing a [Cloud-native](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/definition) pipeline orchestration platform based on a Kubernetes cluster with the following capabilities:
+
 - the ability to run pipelines on very weak hardware such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi).
 - [at-least-once](https://medium.com/@andy.bryant/processing-guarantees-in-kafka-12dd2e30be0e#:~:text=At%20least%20once%20guarantee%20means,1.) guarantee of task processing when using the [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) scheduler.
 - horizontal scaling each platform component to handle a large number of requests per second (target 1,000,000) with a large number of established TCP connections and low latency (<50ms) while consuming relatively few cluster resources (condition will be met at the 99th percentile).
