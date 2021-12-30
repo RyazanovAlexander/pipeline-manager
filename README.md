@@ -67,9 +67,9 @@ In developing this solution, various principles were borrowed from [Temporal](ht
 
 The client needs to run pipelines in a minimally resource-intensive environment, such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi). Latency is at the forefront.
 
-![TextProcessing](https://github.com/RyazanovAlexander/pipeline-manager.applications/blob/main/catalog/TextProcessing/diagram.png)
+![Application.OCR](https://github.com/RyazanovAlexander/application.ocr/blob/main/diagrams/diagram1.png)
 
-In the [MicroK8s](https://microk8s.io/) installs the [TextProcessing](https://github.com/RyazanovAlexander/pipeline-manager.applications/blob/main/catalog/TextProcessing) application with the number of replicas N.
+In the [MicroK8s](https://microk8s.io/) installs the [Application.OCR](https://github.com/RyazanovAlexander/application.ocr) application with the number of replicas N.
 ```yaml
 replicaCount:
   min: 10
