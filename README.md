@@ -42,8 +42,6 @@ An example of a task sent to the pipeline:
 }
 ```
 
-The system [architecture](docs/Architecture.md) sections describe the other components of the system.
-
 ## Motivation
 It's no secret that for a large number of tasks there are already ready-made solutions in the form of a set of utilities. All you need to do is [combine these utilities into the pipeline](https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/c1089.htm).
 
@@ -62,53 +60,6 @@ This project is designed to solve only one task - **the execution of the pipelin
 
 In developing this solution, various principles were borrowed from [Temporal](https://temporal.io), [Apache Airflow](http://airflow.apache.org), [Orleans](https://dotnet.github.io/orleans), [Apache Spark](https://spark.apache.org/) and [Dapr](https://github.com/dapr/workflows).
 
-## Supported scenarios
-### Running pipelines in real time on very weak hardware
-
-The client needs to run pipelines in a minimally resource-intensive environment, such as [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi). Latency is at the forefront.
-
-![Application.OCR](https://github.com/RyazanovAlexander/application.ocr/blob/main/diagrams/diagram1.png)
-
-In the [MicroK8s](https://microk8s.io/) installs the [Application.OCR](https://github.com/RyazanovAlexander/application.ocr) application with the number of replicas N.
-```yaml
-replicaCount:
-  min: 10
-  max: 10
-
-autoScaling:
-  enabled: false
- 
-resourceQuota:
-  enabled: false
-
-ingress:
-  enabled: true
-```
-The [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) and [Infrastructure](https://github.com/RyazanovAlexander/pipeline-manager.infrastructure) components are not installed.
-
-In this scenario, the client directly sends tasks to PODs with pipelines using the http(s) or gRPC protocols. This configuration allows you to reduce latency to a minimum using the least amount of overhead for processing tasks. Disadvantages of this deployment:
-- scaling of workers occurs in manual mode.
-- balancing the distribution of tasks on the client side.
-- the state of tasks is not stored anywhere or is recorded on the client side.
-
-### Processing a large number of tasks from many users with high peak loads
-
-In this scenario, we need to install the [Platform](https://github.com/RyazanovAlexander/pipeline-manager.platform) component with the task scheduler and [Infrastructure](https://github.com/RyazanovAlexander/pipeline-manager.infrastructure) to enable the autoscaling mechanism.
-![Scaling](https://github.com/RyazanovAlexander/pipeline-manager/blob/main/diagrams/scaling.png)
-
-All tasks from a specific user first go to his Application ([virtual actor](https://www.microsoft.com/en-us/research/project/orleans-virtual-actors)) in-memory queue. The application first writes a new task to the database, and then sends the new task to the general in-memory queue of the task scheduler. Each worker with a pipeline periodically polls the task from scheduler queue. When receiving a task, the worker reports all statuses directly to the Application where the task came from. The Application saves the state of all tasks in the database every few seconds. If one of the cluster nodes was lost, then the Application will automatically restart on the other node, unload the last saved state of its current pending tasks and restart them. Keep in mind that in this case, some of the tasks will be repeated.
-
-Scaling of workers with pipelines is based on metrics from Prometheus. By default, this is the number of tasks in the scheduler queue, but can be changed at the discretion of the user.
-
-### Dividing a task into subtasks with parallel execution
-
-*If you are mainly executing this kind of scenario, you should probably look towards [Apache Spark](https://spark.apache.org) or [Temporal](https://temporal.io).*
-
-Although the system is tailored for the execution of pipelines, it is still possible to perform workflows. But the developer is responsible for storing the workflow state.
-![parallel-execution.png](diagrams/parallel-execution.png)
-
-An example of how the scenario works: a client sends a large image for processing. The task gets into the pipeline with the workflow engine. The engine saves the task in the database and creates 3 subtasks, which it publishes through the API Gateway of the Platform. Subtasks separately fall to 3 different workers with pipelines, which begin to process the image in parallel. At the end of the work, each of the workers publishes a new task with a message about the work done. When all 3 tasks reach the worker with the workflow engine, he in turn informs the Application about the completion of the workflow.
-
 ## Project structure
 The project consists of several repositories:
 - pipeline-manager - contains documentation, CI/CD and links to other repositories.
@@ -117,27 +68,3 @@ The project consists of several repositories:
 - [pipeline-manager.platform.app-deployer](https://github.com/RyazanovAlexander/pipeline-manager.platform.app-deployer) - a tool for deploying applications that extend the functionality of the platform.
 - [pipeline-manager.worker.command-executor](https://github.com/RyazanovAlexander/pipeline-manager.worker.command-executor) - the gRPC agent used by Pipeline workers to execute processes in pod containers.
 - [pipeline-manager.applications](https://github.com/RyazanovAlexander/pipeline-manager.applications) - directory with applications installed using [AppDeployer](https://github.com/RyazanovAlexander/pipeline-manager.platform.app-deployer).
-
-![project-dependency-tree](diagrams/project-dependency-tree.png)
-
-## Local development requirements
-Tools:
-- [Helm](https://helm.sh) v3.5.3+
-- [Skaffold](https://skaffold.dev) v1.21.0+
-- [Minikube](https://minikube.sigs.k8s.io) v1.18.1+
-- [Docker](https://www.docker.com) v20.10.5+
-- [kubectl](https://kubernetes.io/docs/tasks/tools) v1.20.5+
-- [Make](https://www.gnu.org/software/make/manual/make.html) v4.3+
-
-Programming languages:
-- [Golang](https://golang.org/) v1.16.2+
-- [C#](https://dotnet.microsoft.com/download/dotnet/5.0) v9.0+, .NET 5.0+
-
-IDE:
-- [Visual Studio Code](https://code.visualstudio.com)
-- [Visual Studio Community 2019](https://visualstudio.microsoft.com/ru/vs/community/)
-
-## Installation
-
-
-## Uninstall
